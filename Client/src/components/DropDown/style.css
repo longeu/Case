@@ -1,0 +1,15 @@
+.product-detail:hover {
+	background-color: rgba(9, 100, 207, 0.1);
+	cursor: pointer;
+}
+
+.product-image img {
+	width: 60px;
+}
+
+
+.product-code {
+	font-weight: 400;
+	font-size: 15px;
+
+}

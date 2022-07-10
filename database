@@ -1,0 +1,389 @@
+CREATE TABLE account (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+	code NOT NULL VARCHAR(55),
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    username VARCHAR(100) NULL,
+    password VARCHAR(255) NULL,
+    image TEXT NULL,
+    fullname VARCHAR(100) NULL,
+    phone VARCHAR(11) NULL,
+    birth DATE NULL,
+    address TEXT NULL,
+    gender BIT NULL,
+    PRIMARY KEY (id)
+);
+ALTER TABLE account
+ADD CONSTRAINT UQ_username UNIQUE (username);
+CREATE TABLE account_role (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    role_id BIGINT NOT NULL,
+    account_id BIGINT NOT NULL,
+    PRIMARY KEY (id)
+);
+CREATE TABLE authoriry (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    role_id BIGINT NOT NULL,
+	name VARCHAR(45) NULL,
+    PRIMARY KEY (id)
+);
+CREATE TABLE category (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    name VARCHAR(100) NULL,
+    code VARCHAR(20) NULL,
+    description TEXT NULL,
+    PRIMARY KEY (id)
+);
+CREATE TABLE color (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp ,
+    updated_at timestamp ,
+    color VARCHAR(20) ,
+    description TEXT ,
+    PRIMARY KEY (id)
+);
+CREATE TABLE customer (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp ,
+    updated_at timestamp ,
+    image TEXT ,
+    phone VARCHAR(11) ,
+    gender TINYINT ,
+    name VARCHAR(100),
+    birth DATE ,
+    email VARCHAR(255) ,
+    address TINYTEXT ,
+    PRIMARY KEY (id)
+);
+CREATE TABLE import_goods (
+    id BIGINT NOT  AUTO_INCREMENT,
+    created_at timestamp ,
+    updated_at timestamp ,
+    account_id INT NOT ,
+    total_price DECIMAL ,
+    total_quantity INT ,
+    status TINYINT ,
+	supplier_id bigint,
+	description text,
+    PRIMARY KEY (id)
+);
+CREATE TABLE import_goods_detail (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    import_goods_id BIGINT NOT NULL,
+    product_detail_id BIGINT NOT NULL,
+    quantity INT NULL,
+    price DECIMAL NULL,
+	discount float,
+    PRIMARY KEY (id)
+);
+CREATE TABLE order_detail (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    quantity INT NULL,
+    price DECIMAL NULL,
+    order_id BIGINT NOT NULL,
+    product_detail_id BIGINT NOT NULL,
+	status tinyint,
+    PRIMARY KEY (id)
+);
+CREATE TABLE orders (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    status TINYINT NULL,
+    total_price DECIMAL NULL,
+    total_quantity INT NULL,
+    customer_id BIGINT NOT NULL,
+    money DECIMAL NULL,
+    note TEXT NULL,
+    PRIMARY KEY (id)
+);
+CREATE TABLE product (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    name VARCHAR(100) NULL,
+    code VARCHAR(20) NULL,
+    description TEXT NULL,
+    image TEXT NULL,
+    category_id BIGINT NOT NULL,
+    PRIMARY KEY (id),
+	status tinyint
+);
+CREATE TABLE product_detail (
+    id bigint AI PK 
+	created_at timestamp 
+	updated_at timestamp 
+	product_id bigint 
+	image text 
+	price decimal(10,0) 
+	discount int 
+	quantity_sell int 
+	barcode varchar(45) 
+	size varchar(45) 
+	color varchar(45) 
+	quantity int 
+	code varchar(45) 
+	status tinyint
+    PRIMARY KEY (id)
+);
+CREATE TABLE role (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    name VARCHAR(100) NULL,
+    PRIMARY KEY (id)
+);
+CREATE TABLE size (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    size VARCHAR(255) NULL,
+    description TEXT NULL,
+    PRIMARY KEY (id)
+);
+
+
+Create TABLE 
+supplier (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at timestamp NULL,
+    updated_at timestamp NULL,
+    code VARCHAR(255) NULL,
+    name VARCHAR(100) NULL,
+    phone VARCHAR(11) NULL,
+    address TINYTEXT NULL,
+    email VARCHAR(255) NULL,
+    debt DECIMAL NULL,
+    tax_code VARCHAR(255) NULL,
+    bank_account VARCHAR(255) NULL,
+    bank_name VARCHAR(255) NULL,
+    person_in_charge VARCHAR(255) NULL,
+    person_in_charge_phone VARCHAR(11) NULL,
+    person_in_charge_email VARCHAR(255) NULL,
+    description TEXT NULL,
+    PRIMARY KEY (id)
+);
+ALTER TABLE account_role
+ADD CONSTRAINT FK_role_TO_account_role FOREIGN KEY (role_id) REFERENCES role (id);
+ALTER TABLE authoriry
+ADD CONSTRAINT FK_role_TO_authoriry FOREIGN KEY (role_id) REFERENCES role (id);
+ALTER TABLE product_detail
+ADD CONSTRAINT FK_product_TO_product_detail FOREIGN KEY (product_id) REFERENCES product (id);
+ALTER TABLE product_detail
+ADD CONSTRAINT FK_size_TO_product_detail FOREIGN KEY (size_id) REFERENCES size (id);
+ALTER TABLE orders
+ADD CONSTRAINT FK_customer_TO_orders FOREIGN KEY (customer_id) REFERENCES customer (id);
+ALTER TABLE import_goods_detail
+ADD CONSTRAINT FK_import_goods_TO_import_goods_detail FOREIGN KEY (import_goods_id) REFERENCES import_goods (id);
+ALTER TABLE import_goods_detail
+ADD CONSTRAINT FK_product_TO_import_goods_detail FOREIGN KEY (product_id) REFERENCES product (id);
+ALTER TABLE product
+ADD CONSTRAINT FK_storage_TO_product FOREIGN KEY (storage_id) REFERENCES storage (id);
+ALTER TABLE product
+ADD CONSTRAINT FK_category_TO_product FOREIGN KEY (category_id) REFERENCES category (id);
+ALTER TABLE account_role
+ADD CONSTRAINT FK_account_TO_account_role FOREIGN KEY (account_id) REFERENCES account (id);
+ALTER TABLE product_detail
+ADD CONSTRAINT FK_color_TO_product_detail FOREIGN KEY (color_id) REFERENCES color (id);
+ALTER TABLE order_detail
+ADD CONSTRAINT FK_orders_TO_order_detail FOREIGN KEY (order_id) REFERENCES orders (id);
+ALTER TABLE order_detail
+ADD CONSTRAINT FK_product_detail_TO_order_detail FOREIGN KEY (product_detail_id) REFERENCES product_detail (id);
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetAllOrders(status tinyint , accountId bigint,customerId bigint , search varchar(255), pageNumber int,
+                                size int,
+                                fromDate timestamp,
+                                toDate timestamp )
+BEGIN
+	SELECT o.* FROM mock_project.orders o join account a on o.account_id=a.id join customer c on o.customer_id=c.id
+where ( o.status =status or  status=2) and 
+(a.id=accountId or accountId=0)
+and 
+(c.id=customerId or customerId=0)
+and (o.code like CONCAT('%', search , '%') or a.fullname like CONCAT('%', search , '%') or a.phone like CONCAT('%', search , '%') or c.phone like CONCAT('%', search , '%') or c.name like CONCAT('%', search , '%'))
+and (date_format(o.created_at,'%Y-%m-%d') >= fromDate or fromDate ="2000-01-01")
+and (date_format(o.created_at,'%Y-%m-%d') <= toDate or toDate ="2000-01-01")
+order by id desc
+limit pageNumber, size;
+END //
+
+DELIMITER ;
+
+call GetAllOrders(2,0,"",0,1,"2000-01-01","2000-01-01");
+DELIMITER //
+CREATE PROCEDURE CountAllOrders(status tinyint , accountId bigint,customerId bigint , search varchar(255),
+                                fromDate timestamp,
+                                toDate timestamp )
+BEGIN
+	SELECT count(o.id) FROM mock_project.orders o join account a on o.account_id=a.id join customer c on o.customer_id=c.id
+where ( o.status =status or  status=2) and 
+(a.id=accountId or accountId=0)
+and 
+(c.id=customerId or customerId=0)
+and (o.code like CONCAT('%', search , '%') or a.fullname like CONCAT('%', search , '%') or a.phone like CONCAT('%', search , '%') or c.phone like CONCAT('%', search , '%') or c.name like CONCAT('%', search , '%'))
+and (date_format(o.created_at,'%Y-%m-%d') >= fromDate or fromDate ="2000-01-01")
+and (date_format(o.created_at,'%Y-%m-%d') <= toDate or toDate ="2000-01-01");
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE GetAllAccounts(status tinyint , roleId bigint , search varchar(255),pageNumber int,size int,fromDate timestamp,
+                                toDate timestamp)
+BEGIN
+	SELECT a.* FROM mock_project.account a join account_role ac on ac.account_id=a.id
+where ( a.status =status or  status=2) 
+and (ac.role_id=roleId or roleId=0)
+and (date_format(a.created_at,'%Y-%m-%d') >= fromDate or fromDate ="2000-01-01")
+and (date_format(a.created_at,'%Y-%m-%d') <= toDate or toDate ="2000-01-01")
+and (a.code like CONCAT('%', search , '%') or a.fullname like CONCAT('%', search , '%') or a.phone like CONCAT('%', search , '%') or a.address like CONCAT('%', search , '%') or a.username like CONCAT('%', search , '%'))
+order by id desc
+limit pageNumber, size;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE CountAllAccounts(status tinyint , roleId bigint , search varchar(255),fromDate timestamp,
+                                toDate timestamp)
+BEGIN
+	SELECT count(a.id) FROM mock_project.account a join account_role ac on ac.account_id=a.id
+where ( a.status =status or  status=2) 
+and (ac.role_id=roleId or roleId=0)
+and (date_format(a.created_at,'%Y-%m-%d') >= fromDate or fromDate ="2000-01-01")
+and (date_format(a.created_at,'%Y-%m-%d') <= toDate or toDate ="2000-01-01")
+and (a.code like CONCAT('%', search , '%') or a.fullname like CONCAT('%', search , '%') or a.phone like CONCAT('%', search , '%') or a.address like CONCAT('%', search , '%') or a.username like CONCAT('%', search , '%'));
+END //
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE GetAllProducts(productName varchar(100) ,
+								categoryId  bigint(20) ,
+                                productStatus tinyint(4),
+                                pageNumber int,
+                                size int,
+                                fromDate timestamp,
+                                toDate timestamp,
+                                sort varchar(20),
+                                orderProduct  varchar(20)
+                               )
+BEGIN
+	select * from product p
+    where (p.name like concat('%', productName, '%') or productName = '')
+    and (p.category_id = categoryId or categoryId = 0 )
+    and (p.status = productStatus or productStatus = 0)
+    and (p.created_at >= fromDate or fromDate = '2000-01-01')
+    and (p.created_at <= toDate or toDate = '2000-01-01')
+    order by 
+		case when orderProduct = 'asc' then
+			case sort when 'name' then p.name
+						when 'createdAt' then p.created_at
+			end
+		end asc,
+        case when orderProduct = 'desc' then
+			case sort when 'name' then p.name
+						when 'createdAt' then p.created_at
+			end
+		end desc
+    limit pageNumber, size
+
+    ;
+    
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE CountProducts(productName varchar(100) ,
+								categoryId  bigint(20) ,
+                                productStatus tinyint(4),
+                                fromDate timestamp,
+                                toDate timestamp
+                               )
+BEGIN
+	select count(p.id) from product p
+    where (p.name like concat('%', productName, '%') or productName = '')
+    and (p.category_id = categoryId or categoryId = 0 )
+    and (p.status = productStatus or productStatus = 0)
+   and (p.created_at >= fromDate or fromDate = "2000-01-01")
+    and (p.created_at <= toDate or toDate = "2000-01-01")
+    
+    ;
+    
+END $$
+
+DELIMITER ;
+
+DELIMITER //
+create procedure GetProductDetails(search varchar(100) ,
+								categoryId  bigint(20) ,
+                                pdStatus tinyint(4),
+                                pageNumber int,
+                                size int,
+                                fromDate timestamp,
+                                toDate timestamp,
+                                orderProductDetail  varchar(20)
+                                )
+begin
+	select product_detail.* from product_detail
+    inner join product on product_detail.product_id = product.id
+    where (product.name like CONCAT('%', search, '%') 
+			or barcode  like CONCAT('%', search, '%')
+			or code like CONCAT('%', search, '%')
+            or color like CONCAT('%', search, '%')
+            or size like CONCAT('%', search, '%'))
+		and (product.category_id = categoryId or categoryId = 0 )
+		and (product_detail.status = pdStatus or pdStatus = 0)
+		and (product_detail.created_at >= fromDate or fromDate = '2000-01-01')
+		and (product_detail.created_at <= toDate or toDate = '2000-01-01')
+		order by 
+			case when orderProductDetail = 'asc' then product_detail.created_at 
+			end asc,
+			case when orderProductDetail = 'desc' then product_detail.created_at
+			end desc
+		limit pageNumber, size;
+end //
+DELIMITER ;
+
+
+
+
+DELIMITER //
+create procedure CountProductDetails(search varchar(100) ,
+								categoryId  bigint(20) ,
+                                pdStatus tinyint(4),
+                                fromDate timestamp,
+                                toDate timestamp
+                                )
+begin
+	select count(product_detail.id) from product_detail
+    inner join product on product_detail.product_id = product.id
+    where (product.name like CONCAT('%', search, '%') 
+			or barcode  like CONCAT('%', search, '%')
+			or code like CONCAT('%', search, '%')
+            or color like CONCAT('%', search, '%')
+            or size like CONCAT('%', search, '%'))
+		and (product.category_id = categoryId or categoryId = 0 )
+		and (product_detail.status = pdStatus or pdStatus = 0)
+		and (product_detail.created_at >= fromDate or fromDate = '2000-01-01')
+		and (product_detail.created_at <= toDate or toDate = '2000-01-01');
+end //
+DELIMITER ;

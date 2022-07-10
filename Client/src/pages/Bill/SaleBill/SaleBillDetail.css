@@ -1,0 +1,25 @@
+.properties {
+  margin-left: 3px;
+}
+
+/* .col-3 span {
+  font-size: 15px;
+} */
+
+.headerCustom {
+  font-size: 1.4rem;
+  border-bottom: inset !important;
+}
+/* .fa {
+  margin-right: 6px;
+  font-size: 20px;
+} */
+
+.price {
+  display: flex;
+}
+
+.employee {
+  margin-top: 2px;
+  font-size: 14px;
+}

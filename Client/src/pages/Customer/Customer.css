@@ -1,0 +1,26 @@
+.in4{
+    background-color: white;
+    border-radius: 3px;
+}
+.in4_sell{
+    background-color: white;
+    border-radius: 3px;
+    height: 193px;
+
+}
+.container-1{
+    padding:0 10px;
+}
+
+h6{
+    margin-left: 10px;
+}
+.info{
+    border-bottom: soild 1px #333;
+    line-height: 2;
+    font-weight: 400px;
+}
+.back{
+    margin-left: 1000px;
+    margin-top: -70px;
+}

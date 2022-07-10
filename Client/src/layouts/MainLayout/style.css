@@ -1,0 +1,61 @@
+.sidebar-bg-active {
+  background-color: #007bff !important;
+  color: white !important;
+}
+.react-date-picker__wrapper {
+  border: none !important;
+}
+
+.nav-logout {
+  margin-top: 80px;
+}
+.form-group {
+  margin-bottom: 0 !important;
+}
+.main-sidebar {
+  position: fixed !important;
+}
+
+input:focus {
+    box-shadow: none !important;
+}
+
+textarea:focus {
+    box-shadow: none !important;
+}
+
+.card {
+  box-shadow: none !important;
+}
+
+tbody, td, thead, tr {
+   
+   border-style: none !important;
+
+}
+.table td,
+.table th {
+  border-top: none;
+    vertical-align: middle !important;
+}
+
+.card-header {
+    border-bottom: none !important;
+}
+.input_quantity{
+    width: 60px;
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid darkgray;
+    border-radius: 0;
+}
+
+.page-item.active .page-link {
+    box-shadow: none;
+}   
+
+.compulsory-field{
+  font-size: 20px;
+  top: 1px;
+  color: red;
+}

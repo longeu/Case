@@ -1,0 +1,17 @@
+.header{
+    font-size: 1.4rem;
+    padding-left: 5px;
+}
+
+.border{
+    border-bottom: inset !important;
+}
+
+.properties{
+    padding-right: 6px;
+}
+
+.icon{
+    padding-top: 3px;
+    padding-right: 5px;
+}

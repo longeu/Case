@@ -1,0 +1,80 @@
+.form_date {
+  position: absolute;
+  width: 400px;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  left: -50%;
+  background-color: #fff;
+}
+
+.date_picker_btn {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  line-height: 38px;
+  padding: 0 10px;
+}
+
+.icon_plus:hover {
+  cursor: pointer;
+  color: dodgerblue;
+}
+
+.list_product :hover {
+  cursor: pointer;
+  color: dodgerblue;
+  background-color: rgb(211, 237, 253);
+}
+
+.search_product {
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+  width: 100%;
+  /* margin-left: 10px; */
+}
+
+.result_search {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 40px;
+  padding: 0;
+  background-color: #fff;
+  z-index: 9;
+}
+
+.supplier_search {
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+  width: 100%;
+  /* margin-left: 10px; */
+}
+.suppliers_response {
+  position: absolute;
+  left: -3%;
+  width: 127%;
+  top: 40px;
+  padding: 0;
+  background-color: #fff;
+  z-index: 9;
+}
+.supplier_response{
+  margin: 5 7;
+}
+.supplier_response:hover {
+  cursor: pointer;
+  color: dodgerblue;
+  background-color: rgb(211, 237, 253);
+}

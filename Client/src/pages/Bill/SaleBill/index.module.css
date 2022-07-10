@@ -1,0 +1,26 @@
+.product_item:hover {
+  color: dodgerblue;
+  background-color: rgb(211, 237, 253);
+}
+.search {
+  position: relative;
+}
+.listProduct {
+  z-index: 999;
+  top: 45px;
+  width: 100%;
+  position: absolute;
+}
+.listCustomer {
+  z-index: 999;
+  top: 45px;
+  width: 100%;
+  position: absolute;
+}
+.icon_delete_customer {
+  color: #0964cf;
+  cursor: pointer;
+}
+.icon_delete_customer:hover {
+  color: red;
+}
